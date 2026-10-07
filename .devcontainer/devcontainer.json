@@ -1,0 +1,38 @@
+{
+  // L'atelier Forge³ de KreaCity : tout ce qu'il faut pour construire ton
+  // outil avec Claude, sans rien installer sur ton ordinateur.
+  "name": "Atelier Forge³",
+  // Node 22 déjà installé : la brique Claude Code n'installe donc pas son Node 18.
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "features": {
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1": {}
+  },
+  "hostRequirements": { "cpus": 2 },
+  "postCreateCommand": "corepack enable && pnpm install",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": { "label": "Ton outil", "onAutoForward": "openPreview" }
+  },
+  // Facultatif : un jeton créé par `claude setup-token`, rangé dans tes secrets
+  // Codespaces, te garde connecté d'un atelier à l'autre.
+  "secrets": {
+    "CLAUDE_CODE_OAUTH_TOKEN": {
+      "description": "Facultatif. Ton jeton Claude (commande `claude setup-token`) pour rester connecté.",
+      "documentationUrl": "https://code.claude.com/docs/fr/devcontainer"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["anthropic.claude-code", "MS-CEINTL.vscode-language-pack-fr"],
+      "settings": {
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 1000,
+        "workbench.startupEditor": "readme",
+        "terminal.integrated.defaultLocation": "editor"
+      }
+    },
+    "codespaces": {
+      "openFiles": ["README.md"]
+    }
+  }
+}
