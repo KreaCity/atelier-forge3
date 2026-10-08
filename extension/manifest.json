@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "KreaSnap",
+  "version": "1.0.0",
+  "description": "Enregistre un profil LinkedIn dans ta base Notion « Contacts » en un clic.",
+  "action": {
+    "default_title": "KreaSnap : enregistrer ce profil",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": ["https://api.notion.com/*"]
+}

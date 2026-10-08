@@ -1,0 +1,35 @@
+:root {
+  --fond: #ffffff;
+  --texte: #1f2328;
+  --doux: #6b7280;
+  --bord: #d0d7de;
+  --accent: #0a66c2;
+  --ok: #1a7f37;
+  --erreur: #cf222e;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  color: var(--texte);
+  background: var(--fond);
+}
+body { margin: 0; padding: 16px; }
+h1 { font-size: 16px; margin: 0 0 12px; }
+label { display: block; font-weight: 600; margin: 10px 0 4px; }
+input {
+  box-sizing: border-box; width: 100%; padding: 8px;
+  border: 1px solid var(--bord); border-radius: 6px; font: inherit;
+}
+button {
+  margin-top: 14px; width: 100%; padding: 10px; border: 0; border-radius: 6px;
+  background: var(--accent); color: white; font: inherit; font-weight: 600; cursor: pointer;
+}
+button:disabled { opacity: 0.6; cursor: wait; }
+.aide { color: var(--doux); font-size: 12px; margin: 4px 0 0; }
+.message { margin-top: 12px; }
+.message.ok { color: var(--ok); }
+.message.erreur { color: var(--erreur); }
+.etiquette {
+  display: inline-block; padding: 2px 8px; border-radius: 99px;
+  background: #fff8c5; font-size: 12px; margin-bottom: 4px;
+}
+a { color: var(--accent); }
+[hidden] { display: none !important; }

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+  <style>body { width: 320px; }</style>
+</head>
+<body>
+  <h1>KreaSnap</h1>
+
+  <form id="fiche" hidden>
+    <span id="deja-la" class="etiquette" hidden>Déjà dans ta base : la fiche sera mise à jour</span>
+    <label for="nom">Nom</label>
+    <input id="nom" required>
+    <label for="poste">Poste</label>
+    <input id="poste">
+    <label for="entreprise">Entreprise</label>
+    <input id="entreprise">
+    <label for="url">Adresse du profil</label>
+    <input id="url" readonly>
+    <button id="enregistrer" type="submit">Enregistrer dans Notion</button>
+  </form>
+
+  <p id="message" class="message"></p>
+  <p><a id="ouvrir-options" href="#">Réglages (jeton Notion et base)</a></p>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

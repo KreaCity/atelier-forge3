@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Réglages KreaSnap</title>
+  <link rel="stylesheet" href="style.css">
+  <style>body { max-width: 520px; margin: 24px auto; }</style>
+</head>
+<body>
+  <h1>Réglages KreaSnap</h1>
+  <form id="reglages">
+    <label for="token">Jeton Notion</label>
+    <input id="token" type="password" autocomplete="off" placeholder="ntn_…">
+    <p class="aide">Sur notion.so/profile/integrations : crée une intégration interne et copie son « secret ».</p>
+
+    <label for="base">Base « Contacts »</label>
+    <input id="base" placeholder="Colle le lien de ta base Notion">
+    <p class="aide">Ouvre ta base dans Notion, « ••• » puis « Copier le lien ». Pense aussi à « ••• » puis « Connexions » pour y ajouter ton intégration.</p>
+
+    <button type="submit">Enregistrer et tester</button>
+  </form>
+  <p id="message" class="message"></p>
+  <script type="module" src="options.js"></script>
+</body>
+</html>
