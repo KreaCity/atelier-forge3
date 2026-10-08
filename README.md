@@ -17,10 +17,10 @@ Utilise **Chrome** ou **Edge** : c'est là que tout marche le mieux.
 
 ## Démarrer avec Claude
 
-1. Dans le terminal, en bas, tape `claude` puis Entrée.
-2. Connecte-toi avec **ton** compte Claude (abonnement Pro). Une page s'ouvre
-   pour autoriser l'accès. Si on te montre un code, copie-le et colle-le dans
-   le terminal.
+1. **La première fois**, dans le terminal en bas, tape `connexion` puis Entrée,
+   et suis les 3 gestes affichés (un lien, « Autoriser », un code à coller).
+   Tu te connectes avec **ton** compte Claude (abonnement Pro).
+2. Ensuite, tape `claude` puis Entrée.
 3. Dis à Claude ce que tu veux construire. Par exemple :
    « Lance l'application et montre-la moi. »
 
