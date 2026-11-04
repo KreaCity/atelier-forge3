@@ -36,3 +36,25 @@ qu'elle reparte avec un outil qui marche ET qu'elle comprenne ce qu'elle a fait.
 - Next.js (App Router) + TypeScript + Tailwind, géré avec `pnpm`.
 - La page d'accueil est `app/page.tsx`. Garde l'outil petit et utile : une
   première version qui marche vaut mieux qu'une grande qui ne marche pas.
+
+## KreaSnap (dossier `extension/`)
+Si la personne construit KreaSnap, elle part d'une extension qui marche déjà :
+elle lit un profil LinkedIn et enregistre sa fiche dans Notion, sans IA et sans
+clé payante. On la fait évoluer, on ne la réécrit pas.
+
+- **Tu ne vois pas son Chrome.** L'extension tourne chez elle, pas dans l'atelier.
+  Pour la récupérer, elle ouvre la page `/extension` de l'application (`pnpm dev`)
+  et clique sur « Télécharger mon extension ». Après chaque changement : elle
+  retélécharge, remplace le dossier, clique sur ↻ dans `chrome://extensions`.
+- **Quand ça coince, demande le diagnostic.** Dans KreaSnap : « Copier le
+  diagnostic pour Claude », puis elle te le colle. Il dit l'étape atteinte, où
+  chaque champ a été trouvé (ou NON TROUVÉ), les colonnes Notion reconnues et
+  l'erreur. Pars de là, ne suppose rien.
+- **Le diagnostic ne recopie jamais** le jeton, l'identifiant de la base ni le
+  contenu d'un profil. Garde cette règle si tu y ajoutes quelque chose.
+- **LinkedIn change souvent sa page.** `lecture-linkedin.js` se repère sur le nom
+  et l'ordre des lignes, jamais sur les noms de classes, qui sont illisibles et
+  changent. Un champ NON TROUVÉ se corrige là, et la fiche reste modifiable à la
+  main avant l'enregistrement.
+- **Notion** : l'API de 2025 sépare la base et sa source de données ; les appels
+  passent par l'identifiant de la source (voir `notion.js`).

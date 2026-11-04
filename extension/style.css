@@ -33,3 +33,4 @@ button:disabled { opacity: 0.6; cursor: wait; }
 }
 a { color: var(--accent); }
 [hidden] { display: none !important; }
+button.secondaire { background: transparent; color: inherit; border: 1px solid currentColor; font-size: 12px; font-weight: 400; opacity: .75; width: 100%; }

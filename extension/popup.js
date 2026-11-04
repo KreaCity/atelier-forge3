@@ -1,4 +1,5 @@
 import { lireReglages, connecterBase, chercherFiche, enregistrerFiche } from "./notion.js";
+import { noter, noterErreur, rediger } from "./diagnostic.js";
 
 const formulaire = document.getElementById("fiche");
 const bouton = document.getElementById("enregistrer");
@@ -15,21 +16,35 @@ document.getElementById("ouvrir-options").addEventListener("click", (e) => {
   chrome.runtime.openOptionsPage();
 });
 
+const boutonDiagnostic = document.getElementById("copier-diagnostic");
+boutonDiagnostic.addEventListener("click", async () => {
+  await navigator.clipboard.writeText(rediger());
+  boutonDiagnostic.textContent = "Copié. Colle-le à Claude dans ton atelier.";
+});
+
+function colonnesReconnues({ colonnes }) {
+  return Object.entries(colonnes).map(([champ, c]) => `${champ} → ${c ? c.type : "ABSENTE"}`).join(", ");
+}
+
 let connexion = null;
 
 async function demarrer() {
   // 1. Lire le profil LinkedIn ouvert dans l'onglet.
   const [onglet] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!onglet || !/^https:\/\/([a-z]+\.)?linkedin\.com\/in\//.test(onglet.url || "")) {
+    noter({ etape: "ouverture", page: "pas un profil LinkedIn" });
     afficher("Ouvre un profil LinkedIn (une adresse en linkedin.com/in/…), puis reclique sur l'icône.");
     return;
   }
+  noter({ etape: "lecture du profil", page: "profil LinkedIn" });
   afficher("Je lis le profil…");
   const [{ result: profil }] = await chrome.scripting.executeScript({
     target: { tabId: onglet.id },
     files: ["lecture-linkedin.js"],
   });
+  if (profil?.sources) noter({ lecture: profil.sources });
   if (!profil || !profil.ok) {
+    noterErreur(new Error(`lecture impossible : ${profil?.raison || "aucun résultat"}`));
     afficher("Je n'arrive pas à lire ce profil. Recharge la page LinkedIn et réessaie.", "erreur");
     return;
   }
@@ -40,13 +55,16 @@ async function demarrer() {
   afficher("");
 
   // 3. Se connecter à Notion et regarder si le profil y est déjà.
+  noter({ etape: "connexion à Notion" });
   try {
     connexion = await connecterBase(await lireReglages());
+    noter({ etape: "fiche prête à enregistrer", notion: colonnesReconnues(connexion) });
     if (await chercherFiche(connexion, profil.url)) {
       document.getElementById("deja-la").hidden = false;
       bouton.textContent = "Mettre à jour dans Notion";
     }
   } catch (erreur) {
+    noterErreur(erreur);
     afficher(erreur.message, "erreur");
   }
 }
@@ -55,10 +73,12 @@ formulaire.addEventListener("submit", async (e) => {
   e.preventDefault();
   bouton.disabled = true;
   afficher("J'enregistre…");
+  noter({ etape: "enregistrement", erreur: null });
   try {
     connexion = connexion || (await connecterBase(await lireReglages()));
     const fiche = Object.fromEntries(champs.map((c) => [c, document.getElementById(c).value]));
     const resultat = await enregistrerFiche(connexion, fiche);
+    noter({ etape: `enregistré (${resultat.action})` });
     afficher(
       resultat.action === "creation"
         ? `Fiche créée dans « ${connexion.nomBase} ».`
@@ -73,10 +93,14 @@ formulaire.addEventListener("submit", async (e) => {
     bouton.textContent = "Mettre à jour dans Notion";
     document.getElementById("deja-la").hidden = false;
   } catch (erreur) {
+    noterErreur(erreur);
     afficher(erreur.message, "erreur");
   } finally {
     bouton.disabled = false;
   }
 });
 
-demarrer().catch((erreur) => afficher(`Oups : ${erreur.message}`, "erreur"));
+demarrer().catch((erreur) => {
+  noterErreur(erreur);
+  afficher(`Oups : ${erreur.message}`, "erreur");
+});
